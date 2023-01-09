@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../components/Button";
 import InputWithLabel from "../../components/InputWithLabel";
-import useAuth from "../../hooks/useAuth";
+import useSignup from "../../hooks/useSignup";
 
 const SignUpPage = () => {
   const {
@@ -9,7 +9,7 @@ const SignUpPage = () => {
     error: { emailError, passwordError },
     onChange: { changeEmail, changePassword },
     handleSubmit,
-  } = useAuth();
+  } = useSignup();
 
   return (
     <form onSubmit={handleSubmit}>

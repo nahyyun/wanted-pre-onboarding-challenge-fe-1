@@ -6,7 +6,7 @@ type InputWithLabelProps = {
   id: string;
   value: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error: string;
+  error?: string;
 };
 
 const InputWithLabel = ({

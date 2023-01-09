@@ -6,7 +6,6 @@ const useValid = (
   errorMessage: string
 ) => {
   const [error, setError] = useState("");
-
   useEffect(() => {
     if (!value) return;
 

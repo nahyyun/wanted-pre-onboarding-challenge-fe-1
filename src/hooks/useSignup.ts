@@ -7,11 +7,12 @@ import {
   ERROR_MSG_INVALID_PWD,
 } from "../constants/errorMessage";
 import { signUp } from "../api/index";
-import { setStorage } from "../utils/storage";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
   const [email, , changeEmail] = useInput("");
   const [password, , changePassword] = useInput("");
+  const navigate = useNavigate();
 
   const [emailError] = useValid(email, validateEmail, ERROR_MSG_INVALID_EMAIL);
   const [passwordError] = useValid(
@@ -23,7 +24,8 @@ const useAuth = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await signUp({ email, password });
+      await signUp({ email, password });
+      navigate("/auth/login");
     } catch (error) {
       console.dir(error);
     }
