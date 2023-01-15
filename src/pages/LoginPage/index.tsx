@@ -7,7 +7,7 @@ const LoginPage = () => {
   const {
     state: { email, password },
     error: { emailError, passwordError },
-    onChange: { changeEmail, changePassword },
+    onChange: { handleChangeEmail, handleChangePassword },
     handleSubmit,
   } = useLogin();
 
@@ -18,7 +18,7 @@ const LoginPage = () => {
         type="text"
         id="login-email"
         value={email}
-        handleChange={changeEmail}
+        handleChange={handleChangeEmail}
         error={emailError}
       />
       <InputWithLabel
@@ -26,13 +26,14 @@ const LoginPage = () => {
         type="password"
         id="login-pwd"
         value={password}
-        handleChange={changePassword}
+        handleChange={handleChangePassword}
         error={passwordError}
       />
       <Button
         type="submit"
         content="로그인"
         disabled={!email || !password || !!emailError || !!passwordError}
+        handleClick={handleSubmit}
       />
     </form>
   );

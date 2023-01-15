@@ -6,12 +6,12 @@ import {
   ERROR_MSG_INVALID_EMAIL,
   ERROR_MSG_INVALID_PWD,
 } from "../constants/errorMessage";
-import { signUp } from "../api/index";
+import axiosInstance from "../api/index";
 import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
-  const [email, , changeEmail] = useInput("");
-  const [password, , changePassword] = useInput("");
+  const [email, , handleChangeEmail] = useInput("");
+  const [password, , handleChangePassword] = useInput("");
   const navigate = useNavigate();
 
   const [emailError] = useValid(email, validateEmail, ERROR_MSG_INVALID_EMAIL);
@@ -24,7 +24,7 @@ const useAuth = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await signUp({ email, password });
+      await axiosInstance.post("users/create", { email, password });
       navigate("/auth/login");
     } catch (error) {
       console.dir(error);
@@ -34,7 +34,7 @@ const useAuth = () => {
   return {
     state: { email, password },
     error: { emailError, passwordError },
-    onChange: { changeEmail, changePassword },
+    onChange: { handleChangeEmail, handleChangePassword },
     handleSubmit,
   };
 };

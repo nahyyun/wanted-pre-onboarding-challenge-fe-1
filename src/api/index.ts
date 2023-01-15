@@ -1,38 +1,31 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosRequestConfig, AxiosHeaders } from "axios";
+import { getStorage } from "../utils/storage";
 
-type UserProps = {
-  email: string;
-  password: string;
-};
+const axiosInstance = axios.create({ baseURL: `http://localhost:8080` });
 
-export const signUp = async ({ email, password }: UserProps) => {
-  try {
-    const response = await axios({
-      url: "http://localhost:8080/users/create",
-      method: "post",
-      data: { email, password },
-    });
-    return response.data;
-  } catch (error: Error | AxiosError | unknown) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.message);
+const token = getStorage("token");
+
+axiosInstance.interceptors.request.use(
+  (config: AxiosRequestConfig): AxiosRequestConfig => {
+    if (token) {
+      (config.headers as AxiosHeaders).set("Authorization", `Bearer ${token}`);
     }
-  }
-};
 
-export const login = async ({ email, password }: UserProps) => {
-  try {
-    const response = await axios({
-      url: "http://localhost:8080/users/login",
-      method: "post",
-      data: { email, password },
-    });
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
     return response.data;
-  } catch (error: unknown) {
-    console.dir(error);
-
-    if (error instanceof AxiosError && error.response?.status === 400) {
-      throw error.response.data;
-    }
+  },
+  (error) => {
+    console.dir("response error", error);
+    return Promise.reject(error);
   }
-};
+);
+
+export default axiosInstance;

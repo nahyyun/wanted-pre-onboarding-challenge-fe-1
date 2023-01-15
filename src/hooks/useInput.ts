@@ -1,17 +1,20 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState, useCallback } from "react";
 
 const useInput = (
   initValue: string
 ): [
   string,
-  Dispatch<SetStateAction<string>>,
-  (e: React.ChangeEvent<HTMLInputElement>) => void
+  React.Dispatch<React.SetStateAction<string>>,
+  (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
 ] => {
   const [value, setValue] = useState(initValue);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setValue(e.target.value);
+    },
+    []
+  );
 
   return [value, setValue, onChange];
 };

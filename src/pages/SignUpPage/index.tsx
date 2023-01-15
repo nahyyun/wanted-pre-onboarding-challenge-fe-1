@@ -7,7 +7,7 @@ const SignUpPage = () => {
   const {
     state: { email, password },
     error: { emailError, passwordError },
-    onChange: { changeEmail, changePassword },
+    onChange: { handleChangeEmail, handleChangePassword },
     handleSubmit,
   } = useSignup();
 
@@ -18,7 +18,7 @@ const SignUpPage = () => {
         type="text"
         id="signup-email"
         value={email}
-        handleChange={changeEmail}
+        handleChange={handleChangeEmail}
         error={emailError}
       />
       <InputWithLabel
@@ -26,13 +26,14 @@ const SignUpPage = () => {
         type="password"
         id="signup-pwd"
         value={password}
-        handleChange={changePassword}
+        handleChange={handleChangePassword}
         error={passwordError}
       />
       <Button
         type="submit"
         content="회원가입"
         disabled={!email || !password || !!emailError || !!passwordError}
+        handleClick={handleSubmit}
       />
     </form>
   );

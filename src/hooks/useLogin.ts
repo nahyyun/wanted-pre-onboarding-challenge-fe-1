@@ -6,14 +6,14 @@ import {
   ERROR_MSG_INVALID_EMAIL,
   ERROR_MSG_INVALID_PWD,
 } from "../constants/errorMessage";
-import { login } from "../api/index";
+import axiosInstance from "../api/index";
 import { useNavigate } from "react-router-dom";
 import { setStorage } from "../utils/storage";
 import { AuthContext } from "../contexts/AuthContext";
 
 const useLogin = () => {
-  const [email, , changeEmail] = useInput("");
-  const [password, , changePassword] = useInput("");
+  const [email, , handleChangeEmail] = useInput("");
+  const [password, , handleChangePassword] = useInput("");
   const navigate = useNavigate();
   const { setLoginState } = useContext(AuthContext);
 
@@ -26,20 +26,22 @@ const useLogin = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await login({ email, password });
-      setStorage("token", response.token);
-      setLoginState(response.token);
-      navigate("/");
-    } catch (error) {
-      console.dir(error);
-    }
+
+    const { token }: any = await axiosInstance.post("/users/login", {
+      email,
+      password,
+    });
+
+    setStorage("token", token);
+    setLoginState(token);
+
+    navigate("/");
   };
 
   return {
     state: { email, password },
     error: { emailError, passwordError },
-    onChange: { changeEmail, changePassword },
+    onChange: { handleChangeEmail, handleChangePassword },
     handleSubmit,
   };
 };
