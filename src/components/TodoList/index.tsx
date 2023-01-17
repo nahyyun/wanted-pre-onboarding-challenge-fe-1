@@ -8,7 +8,7 @@ const TodoList = () => {
 
   const getTodosAsync = async () => {
     try {
-      const { data: todoList } = await axiosInstance("/todos");
+      const { data: todoList } = await axiosInstance.get("/todos");
       setTodos(todoList);
     } catch (error) {
       console.dir(error);
