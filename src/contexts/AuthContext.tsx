@@ -16,7 +16,7 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [isLogin, setIsLogin] = useState<string | null>(null);
+  const [isLogin, setIsLogin] = useState<string | null>(getStorage("token"));
 
   const setLoginState = (state: string) => {
     setIsLogin(state);
