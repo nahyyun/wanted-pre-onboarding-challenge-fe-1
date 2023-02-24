@@ -1,27 +1,33 @@
 import React, { useContext, useEffect } from "react";
 import TodoItem from "../TodoItem";
 import { TodoContext } from "../../contexts/TodoContext";
-import axiosInstance from "../../api/index";
+import useAsync from "../../hooks/useAsync";
+
+type Todo = {
+  title: string;
+  content: string;
+  id: string;
+};
 
 const TodoList = () => {
   const { todos, setTodos } = useContext(TodoContext);
 
-  const getTodosAsync = async () => {
-    try {
-      const { data: todoList } = await axiosInstance.get("/todos");
-      setTodos(todoList);
-    } catch (error) {
-      console.dir(error);
-    }
-  };
+  const { isLoading, responseData, error } = useAsync<Todo[]>("todos", true);
 
   useEffect(() => {
-    getTodosAsync();
-  }, []);
+    if (isLoading || error) return;
+
+    if (responseData) {
+      setTodos(responseData);
+    }
+  }, [isLoading, responseData, error]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>error</div>;
 
   return (
     <div>
-      {todos?.map((todo) => (
+      {todos.map((todo) => (
         <TodoItem todo={todo} key={todo.id} />
       ))}
     </div>

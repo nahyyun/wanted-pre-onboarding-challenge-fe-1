@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import Button from "../Button";
 import TodoEditForm from "../TodoEditForm";
-import { TodoContext } from "../../contexts/TodoContext";
 import useToggle from "../../hooks/useToggle";
-import axiosInstance from "../../api/index";
+import useTodo from "../../hooks/useTodo";
 
 type Todo = {
   title: string;
@@ -18,8 +17,8 @@ type TodoDetailProps = {
 };
 
 const TodoDetail = ({ isShow, toggleDetailShow, todo }: TodoDetailProps) => {
-  const { deleteTodo } = useContext(TodoContext);
   const [isEditFormShow, toggleEditFormShow] = useToggle(false);
+  const { isLoading, error, deleteTodo } = useTodo();
 
   const toggleEditMode = () => {
     toggleDetailShow();
@@ -27,7 +26,6 @@ const TodoDetail = ({ isShow, toggleDetailShow, todo }: TodoDetailProps) => {
   };
 
   const handleDeleteTodo = () => {
-    axiosInstance.delete(`/todos/${todo.id}`);
     deleteTodo(todo.id);
   };
 

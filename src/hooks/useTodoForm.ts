@@ -1,7 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import useInput from "./useInput";
-import { TodoContext } from "../contexts/TodoContext";
-import axiosInstance from "../api";
+import useTodo from "./useTodo";
+
+type Todo = {
+  title: string;
+  content: string;
+  id: string;
+};
 
 const useTodoForm = ({
   defaultTitle,
@@ -15,16 +20,15 @@ const useTodoForm = ({
   const [title, setTitle, handleChangeTitle] = useInput(defaultTitle);
   const [content, setContent, handleChangeContent] = useInput(defaultContent);
 
-  const { addTodo, editTodo } = useContext(TodoContext);
+  const { isLoading, error, editTodo, addTodo } = useTodo();
 
   const handleAddTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { data: todo } = await axiosInstance.post("/todos", {
+    await addTodo({
       title,
       content,
     });
-    addTodo(todo);
 
     setTitle("");
     setContent("");
@@ -35,16 +39,17 @@ const useTodoForm = ({
     id: string
   ) => {
     e.preventDefault();
-    const { data: todo } = await axiosInstance.put(`/todos/${id}`, {
+
+    await editTodo(id, {
       title,
       content,
     });
-    editTodo({ id, ...todo });
 
     submitCallback?.toggleEditMode();
   };
 
   return {
+    status: { isLoading, error },
     state: {
       title,
       content,
