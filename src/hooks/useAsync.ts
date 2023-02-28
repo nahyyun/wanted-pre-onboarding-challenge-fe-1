@@ -101,6 +101,8 @@ const useAsync = <T>(
     GET();
   }, []);
 
+  if (state.error) throw state.error;
+
   return { ...state, POST, PUT, DELETE };
 };
 
