@@ -13,3 +13,7 @@ export const validatePassword = (password: string) => {
   }
   return false;
 };
+
+export const isInputNull = (input: string) => {
+  return input.trim().length < 1;
+};

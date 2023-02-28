@@ -8,19 +8,19 @@ type TodoFormProps = {
     id?: string
   ) => Promise<void>;
   children: React.ReactNode;
-  title: string;
-  content: string;
-  handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeContent: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  titleDefaultValue?: string;
+  contentDefaultValue?: string;
+  titleRef?: React.MutableRefObject<any>;
+  contentRef?: React.MutableRefObject<any>;
 };
 
 const TodoForm = ({
   handleSubmit,
   children,
-  title,
-  content,
-  handleChangeTitle,
-  handleChangeContent,
+  titleDefaultValue,
+  contentDefaultValue,
+  titleRef,
+  contentRef,
 }: TodoFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
@@ -28,14 +28,14 @@ const TodoForm = ({
         text="제목"
         type="text"
         id="todo-title"
-        value={title}
-        handleChange={handleChangeTitle}
+        value={titleDefaultValue}
+        ref={titleRef}
       />
       <TextAreaWithLabel
         text="내용"
         id="todo-content"
-        value={content}
-        handleChange={handleChangeContent}
+        value={contentDefaultValue}
+        ref={contentRef}
       />
       {children}
     </form>

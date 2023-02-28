@@ -1,6 +1,6 @@
-import React from "react";
-import useInput from "./useInput";
+import React, { useRef } from "react";
 import useTodo from "./useTodo";
+import { isInputNull } from "../utils/validate";
 
 type Todo = {
   title: string;
@@ -17,21 +17,28 @@ const useTodoForm = ({
   defaultContent: string;
   submitCallback?: any;
 }) => {
-  const [title, setTitle, handleChangeTitle] = useInput(defaultTitle);
-  const [content, setContent, handleChangeContent] = useInput(defaultContent);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLInputElement>(null);
 
   const { isLoading, error, editTodo, addTodo } = useTodo();
 
   const handleAddTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!titleRef.current || !contentRef.current) return;
+
+    const title = titleRef.current.value;
+    const content = contentRef.current.value;
+
+    if (isInputNull(title) || isInputNull(content)) return;
+
     await addTodo({
       title,
       content,
     });
 
-    setTitle("");
-    setContent("");
+    titleRef.current.value = "";
+    contentRef.current.value = "";
   };
 
   const handleEditTodo = async (
@@ -39,6 +46,13 @@ const useTodoForm = ({
     id: string
   ) => {
     e.preventDefault();
+
+    if (!titleRef.current || !contentRef.current) return;
+
+    const title = titleRef.current.value;
+    const content = contentRef.current.value;
+
+    if (isInputNull(title) || isInputNull(content)) return;
 
     await editTodo(id, {
       title,
@@ -50,11 +64,11 @@ const useTodoForm = ({
 
   return {
     status: { isLoading, error },
-    state: {
-      title,
-      content,
+    defaultValue: { defaultTitle, defaultContent },
+    ref: {
+      title: titleRef,
+      content: contentRef,
     },
-    handleChange: { handleChangeTitle, handleChangeContent },
     handleSubmit: { handleAddTodo, handleEditTodo },
   };
 };

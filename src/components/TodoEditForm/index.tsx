@@ -16,8 +16,8 @@ type TodoEditFormProps = {
 
 const TodoEditForm = ({ todo, toggleEditMode }: TodoEditFormProps) => {
   const {
-    state: { title, content },
-    handleChange: { handleChangeTitle, handleChangeContent },
+    ref: { title, content },
+    defaultValue: { defaultTitle, defaultContent },
     handleSubmit: { handleEditTodo },
   } = useTodoForm({
     defaultTitle: todo.title,
@@ -28,10 +28,10 @@ const TodoEditForm = ({ todo, toggleEditMode }: TodoEditFormProps) => {
   return (
     <TodoForm
       handleSubmit={(e) => handleEditTodo(e, todo.id)}
-      title={title}
-      content={content}
-      handleChangeTitle={handleChangeTitle}
-      handleChangeContent={handleChangeContent}
+      titleDefaultValue={defaultTitle}
+      contentDefaultValue={defaultContent}
+      titleRef={title}
+      contentRef={content}
     >
       <Button type="button" content="취소" handleClick={toggleEditMode} />
       <Button type="submit" content="완료" />

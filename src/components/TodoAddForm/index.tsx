@@ -5,18 +5,15 @@ import TodoForm from "../TodoForm";
 
 const TodoAddForm = () => {
   const {
-    state: { title, content },
-    handleChange: { handleChangeTitle, handleChangeContent },
+    ref: { title, content },
     handleSubmit: { handleAddTodo },
   } = useTodoForm({ defaultTitle: "", defaultContent: "" });
 
   return (
     <TodoForm
       handleSubmit={handleAddTodo}
-      title={title}
-      content={content}
-      handleChangeTitle={handleChangeTitle}
-      handleChangeContent={handleChangeContent}
+      titleRef={title}
+      contentRef={content}
     >
       <Button type="submit" content="작성하기" />
     </TodoForm>
