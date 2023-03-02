@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import useTodo from "./useTodo";
 import { isInputNull } from "../utils/validate";
+import { SnackbarContext } from "../contexts/SnackbarContext";
 
 type Todo = {
   title: string;
@@ -21,6 +22,7 @@ const useTodoForm = ({
   const contentRef = useRef<HTMLInputElement>(null);
 
   const { isLoading, error, editTodo, addTodo } = useTodo();
+  const { showSnackbar } = useContext(SnackbarContext);
 
   const handleAddTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,7 +32,9 @@ const useTodoForm = ({
     const title = titleRef.current.value;
     const content = contentRef.current.value;
 
-    if (isInputNull(title) || isInputNull(content)) return;
+    if (isInputNull(title) || isInputNull(content)) {
+      return showSnackbar("빈칸을 모두 채워주세요.");
+    }
 
     await addTodo({
       title,
@@ -52,7 +56,9 @@ const useTodoForm = ({
     const title = titleRef.current.value;
     const content = contentRef.current.value;
 
-    if (isInputNull(title) || isInputNull(content)) return;
+    if (isInputNull(title) || isInputNull(content)) {
+      return showSnackbar("빈칸을 모두 채워주세요.");
+    }
 
     await editTodo(id, {
       title,

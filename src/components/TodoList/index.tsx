@@ -22,15 +22,14 @@ const TodoList = () => {
     }
   }, [isLoading, responseData, error]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>error</div>;
-
   return (
-    <div>
-      {todos.map((todo) => (
-        <TodoItem todo={todo} key={todo.id} />
-      ))}
-    </div>
+    <>
+      <div>
+        {todos.map((todo) => (
+          <TodoItem todo={todo} key={todo.id} />
+        ))}
+      </div>
+    </>
   );
 };
 
