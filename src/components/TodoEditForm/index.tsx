@@ -2,15 +2,10 @@ import React from "react";
 import Button from "../Button";
 import useTodoForm from "../../hooks/useTodoForm";
 import TodoForm from "../TodoForm";
-
-type Todo = {
-  title: string;
-  content: string;
-  id: string;
-};
+import { Todo } from "../../types/todo";
 
 type TodoEditFormProps = {
-  todo: Todo | any;
+  todo: Todo;
   toggleEditMode: () => void;
 };
 

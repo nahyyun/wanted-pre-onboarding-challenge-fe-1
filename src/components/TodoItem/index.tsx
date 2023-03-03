@@ -1,12 +1,7 @@
 import React from "react";
 import TodoDetail from "../TodoDetail";
 import useToggle from "../../hooks/useToggle";
-
-type Todo = {
-  title: string;
-  content: string;
-  id: string;
-};
+import { Todo } from "../../types/todo";
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
   const [isDetailShow, toggleDetailShow] = useToggle(false);

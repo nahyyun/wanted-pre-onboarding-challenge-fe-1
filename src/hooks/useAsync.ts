@@ -2,19 +2,11 @@ import React from "react";
 import axiosInstance from "../api/index";
 import { useEffect, useReducer } from "react";
 
-type Todo = {
-  title: string;
-  content: string;
-  id: string;
-};
-
 interface IReducerState {
   isLoading: boolean;
   responseData: any;
   error: string;
 }
-
-type responseData = Todo[] | Todo | null;
 
 const defaultFetchReducer: IReducerState = {
   isLoading: false,

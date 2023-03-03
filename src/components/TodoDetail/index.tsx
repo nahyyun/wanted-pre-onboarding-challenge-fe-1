@@ -3,12 +3,7 @@ import Button from "../Button";
 import TodoEditForm from "../TodoEditForm";
 import useToggle from "../../hooks/useToggle";
 import useTodo from "../../hooks/useTodo";
-
-type Todo = {
-  title: string;
-  content: string;
-  id: string;
-};
+import { Todo } from "../../types/todo";
 
 type TodoDetailProps = {
   isShow: boolean;

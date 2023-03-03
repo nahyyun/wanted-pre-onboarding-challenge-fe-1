@@ -1,10 +1,5 @@
 import React, { createContext, useState } from "react";
-
-type Todo = {
-  title: string;
-  content: string;
-  id: string;
-};
+import { Todo } from "../types/todo";
 
 const defaultTodos: Todo[] = [];
 

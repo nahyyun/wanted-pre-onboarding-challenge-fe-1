@@ -2,12 +2,7 @@ import React, { useContext, useEffect } from "react";
 import TodoItem from "../TodoItem";
 import { TodoContext } from "../../contexts/TodoContext";
 import useAsync from "../../hooks/useAsync";
-
-type Todo = {
-  title: string;
-  content: string;
-  id: string;
-};
+import { Todo } from "../../types/todo";
 
 const TodoList = () => {
   const { todos, setTodos } = useContext(TodoContext);

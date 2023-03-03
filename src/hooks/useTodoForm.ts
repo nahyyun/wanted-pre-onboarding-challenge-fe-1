@@ -3,12 +3,6 @@ import useTodo from "./useTodo";
 import { isInputNull } from "../utils/validate";
 import { SnackbarContext } from "../contexts/SnackbarContext";
 
-type Todo = {
-  title: string;
-  content: string;
-  id: string;
-};
-
 const useTodoForm = ({
   defaultTitle,
   defaultContent,
